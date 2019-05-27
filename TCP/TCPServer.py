@@ -12,27 +12,26 @@ a continuous flow."""
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
 server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1) 
   
-# checks whether sufficient arguments have been provided 
+# if number of arguments is correct 
 if len(sys.argv) != 3: 
     print "Correct usage: script, IP address, port number"
     exit() 
   
-# takes the first argument from command prompt as IP address 
+# assigns IP address to first argument
 IP_address = str(sys.argv[1]) 
   
-# takes second argument from command prompt as port number 
+# assignts Port to second argument 
 Port = int(sys.argv[2]) 
   
 """ 
-binds the server to an entered IP address and at the 
-specified port number. 
-The client must be aware of these parameters 
+server.bind((IP_address, Port) binds the server to a given IP address
+and specified port number.
+
 """
 server.bind((IP_address, Port)) 
   
 """ 
-listens for 100 active connections. This number can be 
-increased as per convenience. 
+server.listen(100) listens for 100 active connections.
 """
 server.listen(100) 
   
@@ -40,7 +39,7 @@ list_of_clients = []
   
 def clientthread(conn, addr): 
   
-    # sends a message to the client whose user object is conn 
+    # sends Welcome message 
     conn.send("Welcome to this chatroom!") 
   
     while True: 
@@ -49,23 +48,22 @@ def clientthread(conn, addr):
                 if message: 
   
                     """prints the message and address of the 
-                    user who just sent the message on the server 
-                    terminal"""
-                    print "<" + addr[0] + "> " + message 
+                    user who just sent the message"""
+
+                    print "< " + addr[0] + "> " + message 
   
-                    # Calls broadcast function to send message to all 
+                    # send message to all 
                     message_to_send = "<" + addr[0] + "> " + message 
                     broadcast(message_to_send, conn) 
   
                 else: 
-                    """message may have no content if the connection 
-                    is broken, in this case we remove the connection"""
+                    """if connection is broken"""
                     remove(conn) 
   
             except: 
                 continue
   
-"""Using the below function, we broadcast the message to all 
+"""broadcast the message to all 
 clients who's object is not the same as the one sending 
 the message """
 def broadcast(message, connection): 
@@ -79,9 +77,7 @@ def broadcast(message, connection):
                 # if the link is broken, we remove the client 
                 remove(clients) 
   
-"""The following function simply removes the object 
-from the list that was created at the beginning of  
-the program"""
+"""removes connection"""
 def remove(connection): 
     if connection in list_of_clients: 
         list_of_clients.remove(connection) 
@@ -90,12 +86,10 @@ while True:
   
     """Accepts a connection request and stores two parameters,  
     conn which is a socket object for that user, and addr  
-    which contains the IP address of the client that just  
-    connected"""
+    which contains the IP address"""
     conn, addr = server.accept() 
   
-    """Maintains a list of clients for ease of broadcasting 
-    a message to all available people in the chatroom"""
+    """appends to the list of clients the new client"""
     list_of_clients.append(conn) 
   
     # prints the address of the user that just connected 
