@@ -14,7 +14,7 @@ server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
   
 # if number of arguments is correct 
 if len(sys.argv) != 3: 
-    print "Correct usage: script, IP address, port number"
+    print ("Correct usage: script, IP address, port number")
     exit() 
   
 # assigns IP address to first argument
@@ -50,7 +50,7 @@ def clientthread(conn, addr):
                     """prints the message and address of the 
                     user who just sent the message"""
 
-                    print "< " + addr[0] + "> " + message 
+                    print ("< " + addr[0] + "> " + message)
   
                     # send message to all 
                     message_to_send = "<" + addr[0] + "> " + message 
@@ -93,7 +93,7 @@ while True:
     list_of_clients.append(conn) 
   
     # prints the address of the user that just connected 
-    print addr[0] + " connected"
+    print (addr[0] + " connected")
   
     # creates and individual thread for every user  
     # that connects 
