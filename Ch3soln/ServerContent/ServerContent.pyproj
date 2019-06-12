@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>6c4b3fec-fbf6-41a4-b1ae-bf554cbc46e2</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>ServerContent.py</StartupFile>
+    <StartupFile>formserver.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -21,7 +21,13 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="formserver.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ServerContent.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="index_example2.html" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

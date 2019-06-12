@@ -1,6 +1,6 @@
 import http.server
-from http.server import BaseHTTPRequestHandler, HTTPServer
-from os import curdir, sep
+from http.server import BaseHTTPRequestHandler,HTTPServer
+import cgi
 
 PORT_NUMBER = 8080
 
@@ -10,7 +10,7 @@ class myHandler(BaseHTTPRequestHandler):
         #handler for the Get requests
         def do_GET(self):
             if self.path=="/":
-                self.path="/index_example2.html"
+                self.path="/index_example4.html"
 
             try:
                 #Check the file extension required and set the right mime type
@@ -45,8 +45,24 @@ class myHandler(BaseHTTPRequestHandler):
             except IOError:
                 self.send_error(404, 'File Not Found: %s' % self.path)
 
+    #Handler for the POST requests
+def do_POST(self):
+    if self.path=="/send":
+        form = cgi.FieldStorage(
+            fp=self.rfile,
+            headers=self.headers,
+            environ={'REQUEST_METHOD' : 'POST', 
+                        'CONTENT_TYPE':self.headers['Content-Type'],
+        })
+
+        print("Your name is: %s" % form["your_name"].value)
+        self.send_response(200)
+        self.endheaders()
+        self.wfile.write("Thanks %s !" % form["firstname"].value %" " %form["lastname"])
+        return
+ 
 try:
-    #create a web server and define the handler to maange the incoming requests
+    #Create a web server and define the handler to manage the incoming request
     server = HTTPServer(('', PORT_NUMBER), myHandler)
     print('Started httpserver on port ', PORT_NUMBER)
 
